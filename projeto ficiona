@@ -1,1 +1,157 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
 
+#define tamanho 50
+
+
+
+  typedef struct{
+
+    char time[30];
+    char tecnico [11];     /*  declção das struct,    */
+    int codigo;
+    char ender[40];
+    char cidade[50];
+    char estado[40];
+    int ano;
+
+  }Times;
+  Times lertime(){
+	  Times timesA;
+    printf("Digite o nome do seu Time: ");
+    getchar();
+    fgets(timesA.time, sizeof(timesA.time), stdin);
+	  setbuf(stdin, NULL);                                                  /* entrada das infomaçães*/
+
+    printf("Digite o nome do Tecnico: ");
+    fgets(timesA.tecnico, sizeof(timesA.tecnico), stdin);
+	  setbuf(stdin, NULL);
+
+    printf("Digite o codigo do Time: ");
+    scanf("%d",&timesA.codigo);
+    fgets(timesA.ender, sizeof(timesA.ender), stdin);
+	  setbuf(stdin, NULL);
+
+    printf("Digite o nome da Cidade: ");
+    fgets(timesA.cidade, sizeof(timesA.cidade), stdin);
+	  setbuf(stdin, NULL);
+
+    printf("Digite o nome do Estado: ");
+    fgets(timesA.estado, sizeof(timesA.estado), stdin);
+	  setbuf(stdin, NULL);
+
+    printf("Digite o ano do Time: ");
+    scanf("%d",&timesA.ano);
+	  setbuf(stdin, NULL);
+	  return timesA;
+  }
+  Times* cadastrar_times(Times *vet, int *n,Times add){
+    vet=(Times*) realloc (vet,(*n+1)*sizeof(Times));
+    if (vet==0){
+      return 0;
+    } vet[*n]=add;
+     (*n)++;
+     return vet;
+
+
+  } 
+   Times* excluir_times(Times *vet, int codigo, int *n){
+   	int i;
+   	for(i=0;i<*n;i++){
+   		if(codigo==vet[i].codigo){                                         /*  funcao para excuir os times pelo codigo */
+   			vet[i]=vet[*n-1];
+   			vet=(Times*) realloc (vet,(*n-1)*sizeof(Times));
+   			(*n)--;	   		
+		   } 
+	   }
+	   return vet;
+   }
+   
+
+void menu() {
+
+    printf("\n\n==============================================\n\n");
+    printf("\n G E R E N C I A M E N T O");
+    printf("\n D E T I M E S");
+    printf(" D E F U T E B O L\n\n");
+
+    printf("\n\n===============================================\n");
+
+    printf("\n1. INCLUIR NOVO TIME");
+    printf("\n2. CONSULTAR TIMES PELO NOME");
+    printf("\n3. ALTERAR UM TIME");
+    printf("\n4. EXCLUIR UM TIME");                                            /* menu que sera impresso para o usuario*/
+    printf("\n5. IMPRIMIR O CADASTRO DE TIMES");
+    printf("\n6. LIMPAR TELA");
+    printf("\n7. SAIR");
+
+
+    printf("\n\n===============================================\n");
+
+
+}
+int main(){
+int opcao = 0;
+Times *vet = 0;
+int i,n = 0;
+while(opcao!=7){
+   menu();
+   printf("\nDigite a opcao desejada: ");
+   scanf("%d", &opcao);
+  	switch(opcao){
+			case 1:{ Times A = lertime();                                       /*funcao principal aqui chama todas as funcoes que estao fora dela */
+      vet = cadastrar_times(vet,&n,A);
+        printf("Time adicionado!\n");
+			break;
+      }
+			case 2: //   Consultar um time pelo nome
+			//	void consultar_time(int quantidade);
+				break;
+			 case 3: // Alterar um Time
+			 	//void alterar_time(int quantidade);
+			 	break;
+			 case 4: // Excluir um Time
+			{
+				int codigo;
+				scanf("%d",&codigo);
+			  vet=excluir_times(vet,codigo,&n);
+			  break;
+				 }
+			 case 5: // Imprimir o Cadastro de Times
+			 	{
+			 		for(i=0;i<n;i++){
+			 			printf("%s",vet[i].time);
+			 			printf("%s",vet[i].tecnico);
+			 			printf("%d",vet[i].codigo);
+			 			printf("%s",vet[i].ender);
+			 			printf("%s",vet[i].cidade);
+			 			printf("%s",vet[i].estado);
+			 			printf("%d\n\n",vet[i].ano);
+					 }
+				 }
+			 	break;
+			 case 6: // Limpar tela
+			 	printf("\nLimpando tela..\n");
+				system("cls");
+			 	break;
+			 case 7:  //Sair
+			 	printf("\n===============================================\n");
+
+	        	printf("\n A T E  M A I S ! \n");
+
+	        	printf("\n===============================================\n");
+ return 0;
+				default:
+			 		printf("Opcao incorreta");
+			 		break;
+		}
+	}
+
+
+	    return 0;
+
+
+}
